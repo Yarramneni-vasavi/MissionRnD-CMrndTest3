@@ -70,7 +70,101 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
+int DLL_Length(struct node_dll *head)
+{
+	int len = 0;
+	while (head != NULL)
+	{
+		head = head->next;
+		len++;
+	}
+	return len;
+}
+void BST_Length(struct node *root, int *b_len)
+{
+	if (root != NULL)
+	{
+		(*b_len)++;
+		BST_Length(root->left, b_len);
+		BST_Length(root->right, b_len);
+	}
+}
 
-int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+int isBST(struct node* root, int min, int max)
+{
+	if (root == NULL)
+		return 1;
+
+	if (root->data < min || root->data > max)
+		return 0;
+
+	int t1 = isBST(root->left, min, (root->data) - 1);
+	int t2 = isBST(root->right, (root->data) + 1, max);
+	return t1 && t2;
+}
+int FindMax(struct node_dll *head)
+{
+	while (head->next != NULL)
+	{
+		head = head->next;
+	}
+	return head->data;
+}
+int Ele_search(int ele, struct node_dll *head)
+{
+	while (head != NULL)
+	{
+		if (head->data == ele)
+		{
+			return 1;
+		}
+		head = head->next;
+	}
+	return 0;
+}
+void CheckNodeValues(struct node *root, struct node_dll *head, int *flag)
+{
+	if (root != NULL)
+	{
+		if (Ele_search(root->data, head) == 0)
+		{
+			*flag = 0;
+		}
+		CheckNodeValues(root->left, head, flag);
+		CheckNodeValues(root->right, head, flag);
+	}
+}
+int CheckBst(struct node *root, struct node_dll *head)
+{
+	int max = FindMax(head);
+	if (isBST(root, head->data, max) == 1)
+	{
+		return 1;
+	}
+	return 0;
+}
+int is_identical(struct node_dll *head, struct node *root)
+{
+	if (head == NULL || root == NULL)
+		return -1;
+
+	int b_len = 0;
+	BST_Length(root, &b_len);
+
+	if (DLL_Length(head) == b_len)
+	{
+		if (CheckBst(root, head) == 1)
+		{
+			int flag = 1;
+			CheckNodeValues(root, head, &flag);
+			if (flag == 1)
+				return 1;
+			else
+				return 0;
+		}
+		else
+			return 0;
+	}
+	else
+		return 0;
 }

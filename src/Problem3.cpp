@@ -73,7 +73,11 @@ int getOperand(char *data){
 	return 0;
 }
 //Helper Functions end
-int solve_tree(struct enode *root){
-    return -1;
+int solve_tree(struct enode *root)
+{
+	if (root == NULL)
+		return -1;
+
+	return -1;
 }
 

@@ -36,6 +36,8 @@ struct node{
 	struct node *right;
 };
 
-void merge_two_bst(struct node *root1, struct node *root2){
-	
+void merge_two_bst(struct node *root1, struct node *root2)
+{
+	if (root1 == NULL || root2 == NULL)
+		return NULL;
 }

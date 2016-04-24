@@ -50,7 +50,36 @@ struct node{
 	struct node *right;
 };
 
+void tree_traversal(struct node *root, int *sum)
+{
+	if (root == NULL)
+		return;
 
-int get_missing_value(struct node *root,int n){
-    return -1;
+	*sum = *sum + root->data;
+	tree_traversal(root->left, sum);
+	tree_traversal(root->right, sum);
+}
+
+int get_missing_value(struct node *root,int n)
+{
+	if (root == NULL || n == 0)
+		return -1;
+
+	int actual_sum = 0, sum = 0;
+	tree_traversal(root, &sum);
+
+	/*constraint is (-10000 <= N <= 10000) both positive and negative values*/
+	if (n > 0)
+	{
+		for (int i = 0; i <= n; i++)
+			actual_sum = actual_sum + i;
+	}
+	else
+	{
+		for (int i = 0; i >= n; i--)
+			actual_sum = actual_sum + i;
+	}
+	int missing_value = actual_sum - sum;
+
+	return missing_value;
 }
